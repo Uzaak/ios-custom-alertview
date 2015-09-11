@@ -12,6 +12,8 @@
 #import "CustomIOSAlertView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#import "UIApplication+RSKSharedApplication.h"
+
 const static CGFloat kCustomIOSAlertViewDefaultButtonHeight       = 50;
 const static CGFloat kCustomIOSAlertViewDefaultButtonSpacerHeight = 1;
 const static CGFloat kCustomIOSAlertViewCornerRadius              = 7;
@@ -88,7 +90,7 @@ CGFloat buttonSpacerHeight = 0;
         // On iOS7, calculate with orientation
         if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
             
-            UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+            UIInterfaceOrientation interfaceOrientation = [[UIApplication rsk_sharedApplication] statusBarOrientation];
             switch (interfaceOrientation) {
                 case UIInterfaceOrientationLandscapeLeft:
                     self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
@@ -119,7 +121,7 @@ CGFloat buttonSpacerHeight = 0;
 
         }
 
-        [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
+        [[[[UIApplication rsk_sharedApplication] windows] firstObject] addSubview:self];
     }
 
     dialogView.layer.opacity = 0.5f;
@@ -293,7 +295,7 @@ CGFloat buttonSpacerHeight = 0;
 
     // On iOS7, screen width and height doesn't automatically follow orientation
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
-        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+        UIInterfaceOrientation interfaceOrientation = [[UIApplication rsk_sharedApplication] statusBarOrientation];
         if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
             CGFloat tmp = screenWidth;
             screenWidth = screenHeight;
@@ -341,7 +343,7 @@ CGFloat buttonSpacerHeight = 0;
 // Rotation changed, on iOS7
 - (void)changeOrientationForIOS7 {
 
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication rsk_sharedApplication] statusBarOrientation];
     
     CGFloat startRotation = [[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
     CGAffineTransform rotation;
@@ -415,7 +417,7 @@ CGFloat buttonSpacerHeight = 0;
     CGSize dialogSize = [self countDialogSize];
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication rsk_sharedApplication] statusBarOrientation];
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) {
         CGFloat tmp = keyboardSize.height;
         keyboardSize.height = keyboardSize.width;
